@@ -3,10 +3,11 @@ const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 
-//Socket.io
+//app.js
 const io = require('socket.io')(server);
 io.on("connection", (socket) => {
-  console.log("🔌 New user connected! 🔌");
+  // This file will be read on new socket connections
+    require('./sockets/chat.js')(io, socket);
 })
 
 //app.js
@@ -16,7 +17,6 @@ app.engine('handlebars', exphbs({ defaultLayout: false }));
 app.set('view engine', 'handlebars');
 //Establish your public folder
 app.use('/public', express.static('public'))
-
 
 app.get('/', (req, res) => {
   res.render('index.handlebars');
