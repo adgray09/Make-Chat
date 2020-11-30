@@ -7,6 +7,7 @@ $(document).ready(() => {
     socket.emit('get online users');
     //Each user should be in the general channel by default.
     socket.emit('user changed channel', "General");
+    socket.emit('get all channels');
   
     //Users can change the channel by clicking on its name.
     $(document).on('click', '.channel', (e)=>{
@@ -78,6 +79,12 @@ $(document).ready(() => {
           `);
         }
       })
+
+    socket.on('get all channels', (channels) => {
+      for(channel in channels) {
+        $('.channels').append(`<div class="channel">${channel}</div>`);
+      }
+    })
 
     socket.on('get online users', (onlineUsers) => {
         //You may have not have seen this for loop before. It's syntax is for(key in obj)
